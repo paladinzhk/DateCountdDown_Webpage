@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>倒计时</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            background-image: url('https://cdn.pixabay.com/photo/2016/11/29/06/06/coast-1867704_1280.jpg'); /* 替换为你的背景图片URL */
+            background-size: cover;
+            color: #ffffff;
+            padding-top: 100px;
+        }
+        h1 {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+        #description {
+            font-size: 20px;
+            margin-bottom: 30px;
+        }
+        input, button {
+            font-size: 18px;
+            padding: 10px 20px;
+            margin: 10px;
+        }
+        #countdown {
+            font-size: 60px;
+            margin-top: 50px;
+            text-shadow: 2px 2px 4px #000000;
+        }
+    </style>
+</head>
+<body>
+    <h1>倒计时</h1>
+    <div id="description">请输入目标日期，点击“开始倒计时”按钮</div>
+    <input type="date" id="targetDate" />
+    <button onclick="startCountdown()">开始倒计时</button>
+    <div id="countdown"></div>
+
+    <script>
+        function startCountdown() {
+            const targetDate = new Date(document.getElementById("targetDate").value).getTime();
+
+            if (isNaN(targetDate)) {
+                alert("请输入一个有效的日期");
+                return;
+            }
+
+            const countdownElement = document.getElementById("countdown");
+
+            const interval = setInterval(() => {
+                const now = new Date().getTime();
+                const distance = targetDate - now;
+
+                if (distance < 0) {
+                    clearInterval(interval);
+                    countdownElement.innerHTML = "倒计时结束";
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                countdownElement.innerHTML = `${days} 天 ${hours} 小时 ${minutes} 分钟 ${seconds} 秒`;
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
